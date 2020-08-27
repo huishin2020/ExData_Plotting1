@@ -1,19 +1,10 @@
-##t <- read.table("household_power_consumption.txt", header=TRUE, sep=";", na.strings = "?", colClasses = c('character','character','numeric','numeric','numeric','numeric','numeric','numeric','numeric'))
 
 t <- read.csv("~/household_power_consumption.txt", header=FALSE, sep=";")
 
-##t <- read.csv("~/household_power_consumption.txt", header=FALSE, sep=";",na.strings = "?", colClasses = c('character','character','numeric','numeric','numeric','numeric','numeric','numeric','numeric'))
-
 View(t)
 
-## Format date to Type Date
-##t$Date <- as.Date.default(t$Date, "%dd/%mm/%YYYY")
-t$Date <- as.Date.default(t$Date)
-
-
-
 ## Filter data set from Feb. 1, 2007 to Feb. 2, 2007
-t <- subset(t,Date >= as.Date("2007-2-1") & Date <= as.Date("2007-2-2"))
+t <- data[data$Date %in% c("1/2/2007","2/2/2007"),]
 
 ## Remove incomplete observation
 t <- t[complete.cases(t),]
@@ -32,3 +23,10 @@ t <- cbind(dateTime, t)
 
 ## Format dateTime Column
 t$dateTime <- as.POSIXct(dateTime)
+
+## plot1
+hist(t$Global_active_power, col="red", main="Global Active Power", xlab="Global Active Power (kilowatts)")
+
+## Save file and close device
+dev.copy(png,"plot1.png", width=480, height=480)
+dev.off()
